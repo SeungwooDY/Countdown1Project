@@ -27,7 +27,7 @@ export default function Game() {
     }
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button className="move-buttons" onClick={() => jumpTo(move)}>{description}</button>
       </li>
     )
   })
@@ -38,7 +38,7 @@ export default function Game() {
         <Board x={x} squares={currentSquares} onPlay={handlePlay}/>
       </div>
       <div className="game-info">
-        <ol>{moves}</ol>
+        <ol className="move-list">{moves}</ol>
       </div>
     </div>
   )
@@ -78,31 +78,36 @@ function Board({ x, squares, onPlay }) {
   const line = result?.line ?? []; // return line if not null, otherwise return empty array
 
   let status;
+
+  const draw = squares.every(squares => squares !== null) && !winner;
+
   if (winner) {
     status = "Winner: " + winner;
-  } else {
+  } else if (draw) {
+    status = "Draw";
+  }  else {
     status = "Next player: " + (x ? "X" : "O");
   }
 
   return (
-    <>
-    <div className="status">{status}</div>
-    <div className="board-row">
-      <Square value={squares[0]} onSquareClick={() => handleClick(0)} isWinner={line.includes(0)}/>
-      <Square value={squares[1]} onSquareClick={() => handleClick(1)} isWinner={line.includes(1)}/>
-      <Square value={squares[2]} onSquareClick={() => handleClick(2)} isWinner={line.includes(2)}/>
+    <div className="board-wrapper">
+      <div className="status">{status}</div>
+      <div className="board-row">
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} isWinner={line.includes(0)}/>
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} isWinner={line.includes(1)}/>
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} isWinner={line.includes(2)}/>
+      </div>
+      <div className="board-row">
+        <Square value={squares[3]} onSquareClick={() => handleClick(3)} isWinner={line.includes(3)}/>
+        <Square value={squares[4]} onSquareClick={() => handleClick(4)} isWinner={line.includes(4)}/>
+        <Square value={squares[5]} onSquareClick={() => handleClick(5)} isWinner={line.includes(5)}/>
+      </div>
+      <div className="board-row">
+        <Square value={squares[6]} onSquareClick={() => handleClick(6)} isWinner={line.includes(6)}/>
+        <Square value={squares[7]} onSquareClick={() => handleClick(7)} isWinner={line.includes(7)}/>
+        <Square value={squares[8]} onSquareClick={() => handleClick(8)} isWinner={line.includes(8)}/>
+      </div>
     </div>
-    <div className="board-row">
-      <Square value={squares[3]} onSquareClick={() => handleClick(3)} isWinner={line.includes(3)}/>
-      <Square value={squares[4]} onSquareClick={() => handleClick(4)} isWinner={line.includes(4)}/>
-      <Square value={squares[5]} onSquareClick={() => handleClick(5)} isWinner={line.includes(5)}/>
-    </div>
-    <div className="board-row">
-      <Square value={squares[6]} onSquareClick={() => handleClick(6)} isWinner={line.includes(6)}/>
-      <Square value={squares[7]} onSquareClick={() => handleClick(7)} isWinner={line.includes(7)}/>
-      <Square value={squares[8]} onSquareClick={() => handleClick(8)} isWinner={line.includes(8)}/>
-    </div>
-    </>
   )
 }
 
